@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}MovieLens 100k{% endblock %}</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%F0%9F%8E%AC%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/estilo.css">
+</head>
+<body>
+
+{% macro barra(perfil, tamanho='fina') %}
+  {% set total = perfil | sum(attribute='qtd') %}
+  <div class="perfil perfil--{{ tamanho }}"
+       role="img"
+       aria-label="{% if total %}{% for faixa in perfil %}nota {{ faixa.nota }}: {{ faixa.qtd }}{% if not loop.last %}, {% endif %}{% endfor %}{% else %}sem avaliações{% endif %}">
+    {% if total %}
+      {% for faixa in perfil %}
+        {% if faixa.qtd %}
+          <span class="perfil__faixa perfil__faixa--{{ faixa.nota }}"
+                style="width: {{ '%.2f' | format(faixa.fatia) }}%"
+                title="nota {{ faixa.nota }}: {{ faixa.qtd }} avaliações"></span>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <span class="perfil__vazio"></span>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% macro cartao(filme) %}
+  <article class="cartao">
+    <a class="cartao__link" href="/filmes/{{ filme.id }}">
+      <div class="cartao__capa">
+        {% if filme.poster %}
+          <img class="cartao__poster"
+               src="https://image.tmdb.org/t/p/w342{{ filme.poster }}"
+               alt="Pôster de {{ filme.titulo }}"
+               loading="lazy" width="342" height="513">
+        {% else %}
+          <span class="cartao__capa-vazia" aria-hidden="true">{{ filme.titulo[:1] }}</span>
+        {% endif %}
+      </div>
+      <div class="cartao__corpo">
+        <h3 class="cartao__titulo">{{ filme.titulo }}</h3>
+        <p class="cartao__meta">
+          <span class="numero">{{ filme.ano or '—' }}</span>
+          <span class="cartao__generos">{{ filme.categorias | join(' · ') }}</span>
+        </p>
+        {{ barra(filme.perfil) }}
+        <p class="cartao__notas">
+          {% if filme.qtd %}
+            <strong class="numero">{{ '%.2f' | format(filme.media) | replace('.', ',') }}</strong>
+            <span>em <span class="numero">{{ filme.qtd }}</span> avaliações</span>
+          {% else %}
+            <span class="cartao__sem-nota">nunca avaliado</span>
+          {% endif %}
+        </p>
+      </div>
+    </a>
+  </article>
+{% endmacro %}
+
+<header class="topo">
+  <div class="faixa">
+    <a class="marca" href="/">
+      MovieLens <span class="marca__cem">100k</span>
+    </a>
+    <nav class="menu">
+      <a href="/filmes">Filmes</a>
+      <a href="/api/filmes" class="menu__api">API</a>
+    </nav>
+  </div>
+  <p class="procedencia">
+    GroupLens · Universidade de Minnesota · avaliações coletadas entre setembro de 1997 e abril de 1998
+  </p>
+</header>
+
+<main class="conteudo">
+  {% block conteudo %}{% endblock %}
+</main>
+
+<footer class="rodape">
+  <p>
+    Dados do conjunto MovieLens 100k. Elenco e direção vêm do TMDB, que não
+    endossa este projeto. Trabalho acadêmico, sem uso comercial.
+  </p>
+</footer>
+
+</body>
+</html>

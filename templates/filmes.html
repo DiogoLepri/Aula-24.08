@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% import "base.html" as ui %}
+
+{% block titulo %}Filmes · MovieLens 100k{% endblock %}
+
+{% block conteudo %}
+
+<h1 class="pagina__titulo">Filmes</h1>
+
+<form class="filtros" method="get" action="/filmes">
+  <div class="filtros__campo filtros__campo--busca">
+    <label for="q">Buscar por título</label>
+    <input type="search" id="q" name="q" value="{{ q }}" placeholder="ex.: star wars">
+  </div>
+
+  <div class="filtros__campo">
+    <label for="genero">Gênero</label>
+    <select id="genero" name="genero">
+      <option value="">todos</option>
+      {% for categoria in categorias %}
+        <option value="{{ categoria.nome }}" {% if categoria.nome == genero %}selected{% endif %}>
+          {{ categoria.nome }} ({{ categoria.filmes }})
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="filtros__campo">
+    <label for="ordem">Ordenar por</label>
+    <select id="ordem" name="ordem">
+      {% for chave, opcao in ordens.items() %}
+        <option value="{{ chave }}" {% if chave == ordem %}selected{% endif %}>{{ opcao[0] }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <button type="submit">Aplicar</button>
+  {% if q or genero or ordem != 'avaliados' %}
+    <a class="filtros__limpar" href="/filmes">Limpar</a>
+  {% endif %}
+</form>
+
+<p class="resultado">
+  <span class="numero">{{ '{:,}'.format(total) | replace(',', '.') }}</span>
+  {{ 'filme' if total == 1 else 'filmes' }}
+  {%- if genero %} em {{ genero }}{% endif %}
+  {%- if q %} com “{{ q }}” no título{% endif %}
+  {%- if ordem == 'nota' %}, com pelo menos {{ min_avaliacoes }} avaliações{% endif %}.
+</p>
+
+{% if filmes %}
+  {% set filtros = '&q=' ~ (q | urlencode) if q else '' %}
+  {% set filtros = filtros ~ ('&genero=' ~ (genero | urlencode) if genero else '') %}
+  {% set base = '/filmes?ordem=' ~ ordem ~ filtros %}
+
+  <div class="grade">
+    {% for filme in filmes %}{{ ui.cartao(filme) }}{% endfor %}
+  </div>
+
+  {% if paginas > 1 %}
+    <nav class="paginacao" aria-label="Paginação">
+      {% if pagina > 1 %}
+        <a class="paginacao__passo" href="{{ base }}&pagina={{ pagina - 1 }}">← Anterior</a>
+      {% else %}
+        <span class="paginacao__passo paginacao__passo--inativo">← Anterior</span>
+      {% endif %}
+
+      <span class="paginacao__posicao">
+        página <span class="numero">{{ pagina }}</span> de <span class="numero">{{ paginas }}</span>
+      </span>
+
+      {% if pagina < paginas %}
+        <a class="paginacao__passo" href="{{ base }}&pagina={{ pagina + 1 }}">Próxima →</a>
+      {% else %}
+        <span class="paginacao__passo paginacao__passo--inativo">Próxima →</span>
+      {% endif %}
+    </nav>
+  {% endif %}
+{% else %}
+  <div class="vazio">
+    <p class="vazio__titulo">Nenhum filme com esses filtros.</p>
+    <p>Tente um trecho menor do título, ou tire o gênero.</p>
+    <a class="mais" href="/filmes">Ver todos os filmes</a>
+  </div>
+{% endif %}
+
+{% endblock %}

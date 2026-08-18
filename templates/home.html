@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% import "base.html" as ui %}
+
+{% block conteudo %}
+
+<section class="abertura">
+  <h1 class="abertura__titulo">
+    Cem mil notas,<br>de <span class="numero-destaque">{{ numeros.usuarios }}</span> pessoas,
+    em oito meses.
+  </h1>
+  <p class="abertura__texto">
+    Foi assim que <span class="numero">{{ numeros.filmes }}</span> filmes foram avaliados
+    quando o MovieLens ainda era um experimento de laboratório. Cada nota vai de 1 a 5 —
+    é a única coisa que essas pessoas disseram, e é o que dá para ler aqui.
+  </p>
+
+  {% if estante %}
+    <ul class="estante">
+      {% for filme in estante %}
+        <li class="estante__item">
+          <a href="/filmes/{{ filme.id }}" title="{{ filme.titulo_busca }}">
+            <img src="https://image.tmdb.org/t/p/w185{{ filme.poster }}"
+                 alt="Pôster de {{ filme.titulo_busca }}"
+                 loading="lazy" width="185" height="278">
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <div class="global">
+    <p class="global__rotulo">Todas as avaliações da base</p>
+    {{ ui.barra(perfil_geral, 'grossa') }}
+    <ul class="legenda">
+      {% for faixa in perfil_geral %}
+        <li class="legenda__item">
+          <span class="legenda__cor legenda__cor--{{ faixa.nota }}"></span>
+          <span class="legenda__nota">nota {{ faixa.nota }}</span>
+          <span class="numero legenda__qtd">{{ '{:,}'.format(faixa.qtd) | replace(',', '.') }}</span>
+          <span class="legenda__pct numero">{{ '%.1f' | format(faixa.fatia) | replace('.', ',') }}%</span>
+        </li>
+      {% endfor %}
+    </ul>
+    <p class="global__nota">
+      Média geral <strong class="numero">{{ '%.2f' | format(numeros.media) | replace('.', ',') }}</strong>.
+      As pessoas avaliaram mais o que gostaram: notas 4 e 5 são a maior parte da base.
+    </p>
+  </div>
+</section>
+
+<section class="bloco">
+  <h2 class="bloco__titulo">Os mais avaliados</h2>
+  <p class="bloco__linha">Quem apareceu mais vezes na tela de quem estava avaliando.</p>
+  <div class="grade">
+    {% for filme in mais_avaliados %}{{ ui.cartao(filme) }}{% endfor %}
+  </div>
+  <a class="mais" href="/filmes?ordem=avaliados">Ver a lista inteira</a>
+</section>
+
+<section class="bloco">
+  <h2 class="bloco__titulo">As melhores notas</h2>
+  <p class="bloco__linha">
+    Só filmes com pelo menos <span class="numero">{{ min_avaliacoes }}</span> avaliações —
+    sem o piso, o topo vira uma fila de filmes com três notas 5.
+  </p>
+  <div class="grade">
+    {% for filme in melhores %}{{ ui.cartao(filme) }}{% endfor %}
+  </div>
+  <a class="mais" href="/filmes?ordem=nota">Ver a lista inteira</a>
+</section>
+
+<section class="bloco">
+  <h2 class="bloco__titulo">Por gênero</h2>
+  <p class="bloco__linha">
+    Um filme pode estar em vários gêneros, então as contagens somam mais que o catálogo.
+  </p>
+  <ul class="generos">
+    {% for categoria in categorias %}
+      <li>
+        <a href="/filmes?genero={{ categoria.nome | urlencode }}">
+          {{ categoria.nome }}
+          <span class="numero generos__qtd">{{ categoria.filmes }}</span>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+
+{% endblock %}
