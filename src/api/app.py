@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Catalogo do MovieLens 100k.
 
-    uvicorn app:app --reload
+    uvicorn src.api.app:app --reload
 """
 
 import math
@@ -14,7 +14,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
-BANCO = os.environ.get("MOVIELENS_DB", os.path.join(AQUI, "movielens.db"))
+RAIZ = os.path.dirname(os.path.dirname(AQUI))
+BANCO = os.environ.get("MOVIELENS_DB", os.path.join(RAIZ, "movielens.db"))
 
 POR_PAGINA = 24
 MIN_AVALIACOES = 30

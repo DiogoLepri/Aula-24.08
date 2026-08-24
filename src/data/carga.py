@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Carrega o MovieLens 100k num banco SQLite.
 
-    python carga.py --dados ~/Downloads/ml-100k --banco movielens.db
+    python -m src.data.carga --dados ~/Downloads/ml-100k
 
 Le u.item, u.genre, u.data e u.user e cria o banco do zero (apaga e recria as
 tabelas a cada execucao). Nao depende de pandas - so da biblioteca padrao.
@@ -10,7 +10,7 @@ Sobre os formatos: apesar do que diz o README do dataset, so u.data e separado
 por tabulacao. u.item, u.user e u.genre usam '|', e todos vem em latin-1.
 
 As tabelas pessoa e filme_pessoa nascem vazias: ator e diretor nao existem em
-lugar nenhum do ml-100k. Quem preenche e o scraper.py.
+lugar nenhum do ml-100k. Quem preenche e o src/services/scraper.py.
 """
 
 import argparse
@@ -19,6 +19,10 @@ import os
 import re
 import sqlite3
 import sys
+
+AQUI = os.path.dirname(os.path.abspath(__file__))
+RAIZ = os.path.dirname(os.path.dirname(AQUI))
+BANCO_PADRAO = os.path.join(RAIZ, "movielens.db")
 
 ESQUEMA = """
 PRAGMA foreign_keys = ON;
@@ -182,10 +186,9 @@ def achar_pasta(informada):
     candidatas = []
     if informada:
         candidatas.append(os.path.expanduser(informada))
-    aqui = os.path.dirname(os.path.abspath(__file__))
     candidatas += [
-        aqui,
-        os.path.join(aqui, "ml-100k"),
+        RAIZ,
+        os.path.join(RAIZ, "ml-100k"),
         os.path.join(os.path.expanduser("~"), "Downloads", "ml-100k"),
     ]
     for pasta in candidatas:
@@ -195,7 +198,7 @@ def achar_pasta(informada):
         "Nao encontrei os arquivos do ml-100k (u.data, u.item, u.user).\n"
         "Procurei em:\n  " + "\n  ".join(candidatas) + "\n\n"
         "Passe a pasta com --dados:\n"
-        "  python carga.py --dados ~/Downloads/ml-100k",
+        "  python -m src.data.carga --dados ~/Downloads/ml-100k",
         file=sys.stderr,
     )
     sys.exit(1)
@@ -302,7 +305,7 @@ def carregar(pasta, caminho_banco):
 def main():
     parser = argparse.ArgumentParser(description="Carrega o ml-100k num banco SQLite.")
     parser.add_argument("--dados", help="pasta com u.data, u.item, u.user, u.genre")
-    parser.add_argument("--banco", default="movielens.db", help="arquivo SQLite de saida")
+    parser.add_argument("--banco", default=BANCO_PADRAO, help="arquivo SQLite de saida")
     argumentos = parser.parse_args()
     carregar(achar_pasta(argumentos.dados), argumentos.banco)
 

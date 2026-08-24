@@ -16,14 +16,27 @@ comercial; o TMDB não endossa este projeto.
 
 ## Estrutura do projeto
 
+```
+docs/                 SPECS e documentação do projeto
+notebooks/            análise exploratória da base
+src/
+├── api/              aplicação FastAPI
+│   ├── static/       CSS
+│   └── templates/    Jinja2
+├── data/             esquema do banco e carga do ml-100k
+├── recommenders/     as prateleiras da home (top 10, aleatório, ...)
+└── services/         integrações externas (TMDB)
+```
+
 | Caminho | Papel |
 |---|---|
-| `carga.py` | Cria o banco do zero a partir dos arquivos do ml-100k |
-| `scraper.py` | Completa o banco com elenco, direção e imagens via TMDB |
-| `app.py` | Aplicação FastAPI (páginas HTML + API JSON) |
-| `analise_movielens.py` | Análise exploratória em texto, com foco nas categorias |
-| `templates/` | Jinja2: `base.html`, `home.html`, `filmes.html`, `filme.html`, `nao_encontrado.html` |
-| `static/estilo.css` | Todo o estilo do site |
+| `src/data/carga.py` | Cria o banco do zero a partir dos arquivos do ml-100k |
+| `src/services/scraper.py` | Completa o banco com elenco, direção e imagens via TMDB |
+| `src/api/app.py` | Aplicação FastAPI (páginas HTML + API JSON) |
+| `src/api/templates/` | Jinja2: `base.html`, `home.html`, `filmes.html`, `filme.html`, `nao_encontrado.html` |
+| `src/api/static/estilo.css` | Todo o estilo do site |
+| `src/recommenders/` | O que entra em cada prateleira da home |
+| `notebooks/analise_movielens.py` | Análise exploratória em texto, com foco nas categorias |
 | `requirements.txt` | Dependências |
 
 O banco (`movielens.db`) e o dataset (`ml-100k/`) não são versionados — ver
@@ -31,24 +44,26 @@ O banco (`movielens.db`) e o dataset (`ml-100k/`) não são versionados — ver
 
 ## Como rodar
 
+Todos os comandos rodam a partir da raiz do projeto.
+
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# 1. carga: procura o ml-100k na pasta do projeto, em ./ml-100k e em ~/Downloads/ml-100k
-python carga.py --dados ~/Downloads/ml-100k
+# 1. carga: procura o ml-100k na raiz do projeto, em ./ml-100k e em ~/Downloads/ml-100k
+python -m src.data.carga --dados ~/Downloads/ml-100k
 
 # 2. scraping (opcional, mas necessário para elenco e imagens)
 export TMDB_API_KEY=sua_chave        # themoviedb.org/settings/api
-python scraper.py                    # ou --simular para testar sem chave
+python -m src.services.scraper       # ou --simular para testar sem chave
 
 # 3. aplicação
-uvicorn app:app --reload             # http://127.0.0.1:8000
+uvicorn src.api.app:app --reload     # http://127.0.0.1:8000
 ```
 
 ## Banco de dados
 
-SQLite, esquema criado por `carga.py` (apaga e recria as tabelas a cada execução):
+SQLite, esquema criado por `src/data/carga.py` (apaga e recria as tabelas a cada execução):
 
 - **filme** — id (o MovieID original), titulo (bruto do ml-100k), titulo_busca
   (normalizado: artigo de volta ao início, sem ano), titulo_alt, ano,
@@ -114,6 +129,6 @@ visíveis, `prefers-reduced-motion` respeitado, layout responsivo.
 - 12 filmes sem elenco/pôster (casos de casamento de título descritos acima).
 - O ml-100k tem títulos duplicados (o mesmo filme com dois MovieIDs), então as
   notas de um mesmo filme podem estar divididas em mais de um registro.
-  `carga.py` conta 23 duplicatas comparando o título normalizado;
-  `analise_movielens.py` conta 18 comparando o título bruto.
+  `src/data/carga.py` conta 23 duplicatas comparando o título normalizado;
+  `notebooks/analise_movielens.py` conta 18 comparando o título bruto.
 - As imagens dependem da CDN do TMDB estar acessível.

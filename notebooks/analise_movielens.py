@@ -5,10 +5,10 @@ Requer pandas, além dos arquivos u.data, u.item, u.user, u.genre e u.occupation
 do ml-100k. Toda a saída é em texto corrido, no terminal.
 
 Onde estão os dados: o script procura os arquivos, nesta ordem, na pasta do
-próprio script, numa subpasta ml-100k e na pasta passada como argumento:
+raiz do projeto, numa subpasta ml-100k e na pasta passada como argumento:
 
-    python analise_movielens.py
-    python analise_movielens.py ~/Downloads/ml-100k
+    python notebooks/analise_movielens.py
+    python notebooks/analise_movielens.py ~/Downloads/ml-100k
 
 Sobre os formatos: apesar do que diz o README do dataset, só u.data é separado
 por tabulação. u.item, u.user e u.genre usam '|', e todos vêm em latin-1.
@@ -25,7 +25,7 @@ import textwrap
 
 import pandas as pd
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LARGURA = 88
 
 # O 100k tem 100.000 avaliações, um décimo do 1M, então os cortes de volume são
@@ -145,7 +145,7 @@ def achar_pasta():
         "Não encontrei os arquivos do ml-100k (u.data, u.item, u.user).\n"
         "Procurei em:\n  " + "\n  ".join(candidatas) + "\n\n"
         "Passe a pasta como argumento:\n"
-        "  python analise_movielens.py ~/Downloads/ml-100k",
+        "  python notebooks/analise_movielens.py ~/Downloads/ml-100k",
         file=sys.stderr,
     )
     sys.exit(1)

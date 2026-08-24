@@ -7,19 +7,35 @@ Catálogo web do conjunto MovieLens 100k (100.000 avaliações, 943 usuários,
 FastAPI + SQLite + Jinja2.
 
 A especificação completa — esquema do banco, rotas, scripts e decisões de
-projeto — está em [SPECS.md](SPECS.md).
+projeto — está em [docs/SPECS.md](docs/SPECS.md).
+
+## Estrutura
+
+```
+docs/                 SPECS e documentação do projeto
+notebooks/            análise exploratória da base
+src/
+├── api/              aplicação FastAPI
+│   ├── static/       CSS
+│   └── templates/    Jinja2
+├── data/             esquema do banco e carga do ml-100k
+├── recommenders/     as prateleiras da home (top 10, aleatório, ...)
+└── services/         integrações externas (TMDB)
+```
 
 ## Rodando
+
+Todos os comandos rodam a partir da raiz do projeto.
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-python carga.py --dados ~/Downloads/ml-100k   # cria movielens.db a partir do dataset
-export TMDB_API_KEY=sua_chave                 # themoviedb.org/settings/api
-python scraper.py                             # elenco, direção e imagens (ou --simular)
-uvicorn app:app --reload                      # http://127.0.0.1:8000
+python -m src.data.carga --dados ~/Downloads/ml-100k   # cria movielens.db
+export TMDB_API_KEY=sua_chave                          # themoviedb.org/settings/api
+python -m src.services.scraper                         # elenco, direção e imagens (ou --simular)
+uvicorn src.api.app:app --reload                       # http://127.0.0.1:8000
 ```
 
-`analise_movielens.py` gera a análise exploratória da base em texto, no
-terminal (requer pandas e os arquivos do ml-100k).
+`notebooks/analise_movielens.py` gera a análise exploratória da base em texto,
+no terminal (requer pandas e os arquivos do ml-100k).
