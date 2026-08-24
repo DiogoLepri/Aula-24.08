@@ -12,7 +12,7 @@ comercial; o TMDB não endossa este projeto.
 - **Design da página** (templates Jinja2 + CSS próprio)
 - **Script de scraping** (TMDB, com pôster e foto do elenco)
 - **FastAPI básico**, com home, listagem e detalhe
-- **SPECS em markdown** (este arquivo)
+- **SPECS em markdown** (este arquivo) e o esquema detalhado em `docs/esquema.md`
 
 ## Estrutura do projeto
 
@@ -30,6 +30,8 @@ src/
 
 | Caminho | Papel |
 |---|---|
+| `src/data/esquema.sql` | O DDL: tabelas, chaves e índices |
+| `src/data/banco.py` | Caminho do banco e abertura de conexão |
 | `src/data/carga.py` | Cria o banco do zero a partir dos arquivos do ml-100k |
 | `src/services/scraper.py` | Completa o banco com elenco, direção e imagens via TMDB |
 | `src/api/app.py` | Aplicação FastAPI (páginas HTML + API JSON) |
@@ -63,21 +65,23 @@ uvicorn src.api.app:app --reload     # http://127.0.0.1:8000
 
 ## Banco de dados
 
-SQLite, esquema criado por `src/data/carga.py` (apaga e recria as tabelas a cada execução):
+SQLite. O DDL fica em `src/data/esquema.sql` e é aplicado por
+`src/data/carga.py`, que apaga e recria as tabelas a cada execução.
+`src/data/banco.py` centraliza o caminho do arquivo e a abertura da conexão.
 
-- **filme** — id (o MovieID original), titulo (bruto do ml-100k), titulo_busca
-  (normalizado: artigo de volta ao início, sem ano), titulo_alt, ano,
-  data_lancamento (ISO), imdb_url, **poster** (caminho de imagem no TMDB)
-- **categoria** — os 19 gêneros de `u.genre`
-- **filme_categoria** — N:N filme × categoria
-- **pessoa** — nome (único), tmdb_id, **foto** (caminho de imagem no TMDB)
-- **filme_pessoa** — N:N com `papel` (`ator` | `diretor`) e `ordem` de crédito
-- **usuario** — id, idade, sexo (M/F), ocupacao, cep
-- **avaliacao** — usuario × filme, nota 1–5, timestamp; PK (usuario, filme)
-- **filme_estatistica** — agregados pré-calculados por filme: qtd, média e a
-  contagem por nota (n1..n5), que alimenta as barras de distribuição do site
-- **scraper_log** — progresso do scraper por filme (`ok`, `nao_encontrado`,
-  `sem_creditos`), o que permite retomar a coleta de onde parou
+O diagrama e a explicação tabela por tabela estão em
+**[docs/esquema.md](esquema.md)**. Em resumo, o centro é `filme`, e em volta
+dele:
+
+- **usuário** liga-se a filme por **avaliacao** (nota 1–5, PK usuário+filme)
+- **categoria** liga-se a filme por **filme_categoria** (N:N, 19 gêneros)
+- **pessoa** (atores e diretores) liga-se a filme por **filme_pessoa** (N:N,
+  com `papel` e `ordem` de crédito)
+- **filme_estatistica** guarda o agregado por filme — qtd, média e a contagem
+  por nota (n1..n5) — calculado uma vez na carga, que é o que sustenta o top 10
+  e as listagens sem varrer as 100 mil avaliações
+- **scraper_log** guarda o progresso do scraper por filme, o que permite
+  retomar a coleta de onde parou
 
 Pessoa e filme_pessoa nascem vazias: o ml-100k não traz elenco nem direção em
 lugar nenhum — quem preenche é o scraper.

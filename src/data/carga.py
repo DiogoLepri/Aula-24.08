@@ -3,8 +3,9 @@
 
     python -m src.data.carga --dados ~/Downloads/ml-100k
 
-Le u.item, u.genre, u.data e u.user e cria o banco do zero (apaga e recria as
-tabelas a cada execucao). Nao depende de pandas - so da biblioteca padrao.
+Le u.item, u.genre, u.data e u.user e cria o banco do zero: o esquema esta em
+src/data/esquema.sql e e reaplicado (apagando e recriando as tabelas) a cada
+execucao. Nao depende de pandas - so da biblioteca padrao.
 
 Sobre os formatos: apesar do que diz o README do dataset, so u.data e separado
 por tabulacao. u.item, u.user e u.genre usam '|', e todos vem em latin-1.
@@ -20,93 +21,9 @@ import re
 import sqlite3
 import sys
 
-AQUI = os.path.dirname(os.path.abspath(__file__))
-RAIZ = os.path.dirname(os.path.dirname(AQUI))
-BANCO_PADRAO = os.path.join(RAIZ, "movielens.db")
+from src.data import banco as bd
 
-ESQUEMA = """
-PRAGMA foreign_keys = ON;
-
-DROP TABLE IF EXISTS filme_estatistica;
-DROP TABLE IF EXISTS avaliacao;
-DROP TABLE IF EXISTS filme_pessoa;
-DROP TABLE IF EXISTS filme_categoria;
-DROP TABLE IF EXISTS pessoa;
-DROP TABLE IF EXISTS categoria;
-DROP TABLE IF EXISTS usuario;
-DROP TABLE IF EXISTS filme;
-
-CREATE TABLE filme (
-    id              INTEGER PRIMARY KEY,
-    titulo          TEXT NOT NULL,
-    titulo_busca    TEXT NOT NULL,
-    titulo_alt      TEXT,
-    ano             INTEGER,
-    data_lancamento TEXT,
-    imdb_url        TEXT,
-    poster          TEXT
-);
-
-CREATE TABLE categoria (
-    id   INTEGER PRIMARY KEY,
-    nome TEXT NOT NULL UNIQUE
-);
-
-CREATE TABLE filme_categoria (
-    filme_id     INTEGER NOT NULL REFERENCES filme(id),
-    categoria_id INTEGER NOT NULL REFERENCES categoria(id),
-    PRIMARY KEY (filme_id, categoria_id)
-);
-
-CREATE TABLE pessoa (
-    id      INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome    TEXT NOT NULL UNIQUE,
-    tmdb_id INTEGER,
-    foto    TEXT
-);
-
-CREATE TABLE filme_pessoa (
-    filme_id  INTEGER NOT NULL REFERENCES filme(id),
-    pessoa_id INTEGER NOT NULL REFERENCES pessoa(id),
-    papel     TEXT NOT NULL CHECK (papel IN ('ator', 'diretor')),
-    ordem     INTEGER,
-    PRIMARY KEY (filme_id, pessoa_id, papel)
-);
-
-CREATE TABLE usuario (
-    id       INTEGER PRIMARY KEY,
-    idade    INTEGER,
-    sexo     TEXT CHECK (sexo IN ('M', 'F')),
-    ocupacao TEXT,
-    cep      TEXT
-);
-
-CREATE TABLE avaliacao (
-    usuario_id  INTEGER NOT NULL REFERENCES usuario(id),
-    filme_id    INTEGER NOT NULL REFERENCES filme(id),
-    nota        INTEGER NOT NULL CHECK (nota BETWEEN 1 AND 5),
-    avaliado_em INTEGER NOT NULL,
-    PRIMARY KEY (usuario_id, filme_id)
-);
-
-CREATE TABLE filme_estatistica (
-    filme_id INTEGER PRIMARY KEY REFERENCES filme(id),
-    qtd      INTEGER NOT NULL DEFAULT 0,
-    media    REAL,
-    n1       INTEGER NOT NULL DEFAULT 0,
-    n2       INTEGER NOT NULL DEFAULT 0,
-    n3       INTEGER NOT NULL DEFAULT 0,
-    n4       INTEGER NOT NULL DEFAULT 0,
-    n5       INTEGER NOT NULL DEFAULT 0
-);
-
-CREATE INDEX idx_avaliacao_filme ON avaliacao(filme_id);
-CREATE INDEX idx_filme_categoria_categoria ON filme_categoria(categoria_id);
-CREATE INDEX idx_filme_pessoa_pessoa ON filme_pessoa(pessoa_id);
-CREATE INDEX idx_filme_ano ON filme(ano);
-CREATE INDEX idx_estatistica_qtd ON filme_estatistica(qtd);
-CREATE INDEX idx_estatistica_media ON filme_estatistica(media);
-"""
+RAIZ = bd.RAIZ
 
 ARTIGOS = {
     "the", "a", "an",
@@ -209,7 +126,7 @@ def carregar(pasta, caminho_banco):
         os.remove(caminho_banco)
 
     conexao = sqlite3.connect(caminho_banco)
-    conexao.executescript(ESQUEMA)
+    bd.criar_esquema(conexao)
 
     categorias = []
     for linha in ler_linhas(os.path.join(pasta, "u.genre"), "|"):
@@ -305,7 +222,7 @@ def carregar(pasta, caminho_banco):
 def main():
     parser = argparse.ArgumentParser(description="Carrega o ml-100k num banco SQLite.")
     parser.add_argument("--dados", help="pasta com u.data, u.item, u.user, u.genre")
-    parser.add_argument("--banco", default=BANCO_PADRAO, help="arquivo SQLite de saida")
+    parser.add_argument("--banco", default=bd.BANCO_PADRAO, help="arquivo SQLite de saida")
     argumentos = parser.parse_args()
     carregar(achar_pasta(argumentos.dados), argumentos.banco)
 

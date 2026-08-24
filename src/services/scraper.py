@@ -16,9 +16,7 @@ import time
 
 import requests
 
-AQUI = os.path.dirname(os.path.abspath(__file__))
-RAIZ = os.path.dirname(os.path.dirname(AQUI))
-BANCO_PADRAO = os.path.join(RAIZ, "movielens.db")
+from src.data import banco as bd
 
 BASE = "https://api.themoviedb.org/3"
 ELENCO_PADRAO = 8
@@ -227,7 +225,7 @@ def rodar(argumentos):
 
 def main():
     parser = argparse.ArgumentParser(description="Completa atores e diretor via TMDB.")
-    parser.add_argument("--banco", default=BANCO_PADRAO)
+    parser.add_argument("--banco", default=bd.BANCO_PADRAO)
     parser.add_argument("--chave", help="chave do TMDB (ou use a variavel TMDB_API_KEY)")
     parser.add_argument("--elenco", type=int, default=ELENCO_PADRAO,
                         help=f"quantos atores por filme (padrao {ELENCO_PADRAO})")

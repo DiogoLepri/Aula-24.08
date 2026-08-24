@@ -13,9 +13,9 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from src.data.banco import conexao_web
+
 AQUI = os.path.dirname(os.path.abspath(__file__))
-RAIZ = os.path.dirname(os.path.dirname(AQUI))
-BANCO = os.environ.get("MOVIELENS_DB", os.path.join(RAIZ, "movielens.db"))
 
 POR_PAGINA = 24
 MIN_AVALIACOES = 30
@@ -30,15 +30,6 @@ ORDENS = {
 app = FastAPI(title="MovieLens 100k")
 app.mount("/static", StaticFiles(directory=os.path.join(AQUI, "static")), name="static")
 templates = Jinja2Templates(directory=os.path.join(AQUI, "templates"))
-
-
-def banco():
-    conexao = sqlite3.connect(BANCO)
-    conexao.row_factory = sqlite3.Row
-    try:
-        yield conexao
-    finally:
-        conexao.close()
 
 
 def perfil(linha):
@@ -137,7 +128,7 @@ def lista_categorias(conexao):
 
 
 @app.get("/", response_class=HTMLResponse)
-def home(request: Request, conexao: sqlite3.Connection = Depends(banco)):
+def home(request: Request, conexao: sqlite3.Connection = Depends(conexao_web)):
     numeros = conexao.execute(
         """
         SELECT (SELECT COUNT(*) FROM filme)     AS filmes,
@@ -197,7 +188,7 @@ def listagem(
     genero: str = Query(None),
     ordem: str = Query("avaliados"),
     pagina: int = Query(1, ge=1),
-    conexao: sqlite3.Connection = Depends(banco),
+    conexao: sqlite3.Connection = Depends(conexao_web),
 ):
     if ordem not in ORDENS:
         ordem = "avaliados"
@@ -224,7 +215,7 @@ def listagem(
 def detalhe(
     request: Request,
     filme_id: int,
-    conexao: sqlite3.Connection = Depends(banco),
+    conexao: sqlite3.Connection = Depends(conexao_web),
 ):
     linha = conexao.execute(
         """
@@ -295,7 +286,7 @@ def api_filmes(
     genero: str = Query(None),
     ordem: str = Query("avaliados"),
     pagina: int = Query(1, ge=1),
-    conexao: sqlite3.Connection = Depends(banco),
+    conexao: sqlite3.Connection = Depends(conexao_web),
 ):
     """Mesma listagem, em JSON."""
     if ordem not in ORDENS:
