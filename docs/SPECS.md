@@ -17,15 +17,17 @@ comercial; o TMDB não endossa este projeto.
 ## Estrutura do projeto
 
 ```
-docs/                 SPECS e documentação do projeto
+docs/                 SPECS e esquema do banco
+README.md
 notebooks/            análise exploratória da base
 src/
 ├── api/              aplicação FastAPI
 │   ├── static/       CSS
-│   └── templates/    Jinja2
-├── data/             esquema do banco e carga do ml-100k
-├── recommenders/     as prateleiras da home (top 10, aleatório, ...)
+│   └── template/     Jinja2
+├── data/             esquema do banco, carga do ml-100k e consultas
+├── recommenders/     as prateleiras da home (top 10, mais avaliados, aleatório)
 └── services/         integrações externas (TMDB)
+tests/                testes (só biblioteca padrão)
 ```
 
 | Caminho | Papel |
@@ -35,10 +37,12 @@ src/
 | `src/data/carga.py` | Cria o banco do zero a partir dos arquivos do ml-100k |
 | `src/services/scraper.py` | Completa o banco com elenco, direção e imagens via TMDB |
 | `src/api/app.py` | Aplicação FastAPI (páginas HTML + API JSON) |
-| `src/api/templates/` | Jinja2: `base.html`, `home.html`, `filmes.html`, `filme.html`, `nao_encontrado.html` |
+| `src/api/template/` | Jinja2: `base.html`, `home.html`, `filmes.html`, `filme.html`, `nao_encontrado.html` |
 | `src/api/static/estilo.css` | Todo o estilo do site |
-| `src/recommenders/` | O que entra em cada prateleira da home |
+| `src/data/consultas.py` | As consultas que a listagem e a home fazem no banco |
+| `src/recommenders/` | Uma prateleira da home por módulo: `top10`, `populares`, `aleatorio` |
 | `notebooks/analise_movielens.py` | Análise exploratória em texto, com foco nas categorias |
+| `tests/` | Testes em `unittest`, sobre um banco em memória |
 | `requirements.txt` | Dependências |
 
 O banco (`movielens.db`) e o dataset (`ml-100k/`) não são versionados — ver
@@ -109,15 +113,32 @@ com a mensagem de "ainda não coletado".
 
 | Rota | Resposta |
 |---|---|
-| `GET /` | Home: números gerais da base, distribuição de todas as notas, estante de pôsteres, mais avaliados, melhores notas, gêneros |
+| `GET /` | Home: números gerais da base, distribuição de todas as notas, estante de pôsteres, as três prateleiras e os gêneros |
 | `GET /filmes` | Listagem com busca por título (`q`), filtro por gênero (`genero`), ordenação (`ordem`: avaliados, nota, ano, titulo) e paginação (`pagina`, 24 por página) |
 | `GET /filmes/{id}` | Detalhe: pôster, gêneros clicáveis, distribuição de notas, recorte por sexo, elenco e direção com fotos; 404 amigável se o id não existe |
 | `GET /api/filmes` | A mesma listagem, em JSON (mesmos parâmetros) |
+| `GET /api/prateleiras` | As prateleiras da home, em JSON (`limite`, 1–50) |
 | `GET /static/*` | Arquivos estáticos |
 
 A ordenação por **nota** exige um mínimo de 30 avaliações (`MIN_AVALIACOES`) —
 sem esse piso, o topo vira uma fila de filmes com três notas 5. A home explica
 o critério.
+
+### As prateleiras da home
+
+Cada uma é um módulo em `src/recommenders/`, todos com a mesma forma (`NOME`,
+`TITULO`, `LINK`, `linha()` e `selecionar(conexao, limite)`), e a home monta o
+que estiver na tupla `PRATELEIRAS`. São dez filmes por prateleira, numa fileira
+que rola de lado:
+
+| Prateleira | Critério |
+|---|---|
+| **Top 10** | Maior média, entre os filmes com pelo menos `MIN_AVALIACOES` avaliações |
+| **Os mais avaliados** | Maior número de avaliações — volume, não nota |
+| **Aleatório** | `ORDER BY RANDOM()` entre os filmes com alguma avaliação; muda a cada visita |
+
+Acrescentar uma prateleira é escrever o módulo e pô-lo na tupla — a home e o
+`/api/prateleiras` passam a mostrá-la sem mais nenhuma mudança.
 
 ## Design
 

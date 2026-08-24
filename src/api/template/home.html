@@ -48,26 +48,26 @@
   </div>
 </section>
 
-<section class="bloco">
-  <h2 class="bloco__titulo">Os mais avaliados</h2>
-  <p class="bloco__linha">Quem apareceu mais vezes na tela de quem estava avaliando.</p>
-  <div class="grade">
-    {% for filme in mais_avaliados %}{{ ui.cartao(filme) }}{% endfor %}
-  </div>
-  <a class="mais" href="/filmes?ordem=avaliados">Ver a lista inteira</a>
-</section>
+{% for prateleira in prateleiras %}
+  <section class="bloco prateleira prateleira--{{ prateleira.nome }}">
+    <div class="prateleira__topo">
+      <div>
+        <h2 class="bloco__titulo">{{ prateleira.titulo }}</h2>
+        <p class="bloco__linha">{{ prateleira.linha }}</p>
+      </div>
+      <a class="mais" href="{{ prateleira.link }}">Ver a lista inteira</a>
+    </div>
 
-<section class="bloco">
-  <h2 class="bloco__titulo">As melhores notas</h2>
-  <p class="bloco__linha">
-    Só filmes com pelo menos <span class="numero">{{ min_avaliacoes }}</span> avaliações —
-    sem o piso, o topo vira uma fila de filmes com três notas 5.
-  </p>
-  <div class="grade">
-    {% for filme in melhores %}{{ ui.cartao(filme) }}{% endfor %}
-  </div>
-  <a class="mais" href="/filmes?ordem=nota">Ver a lista inteira</a>
-</section>
+    <ol class="fileira">
+      {% for filme in prateleira.filmes %}
+        <li class="fileira__item">
+          <span class="fileira__posicao numero" aria-hidden="true">{{ loop.index }}</span>
+          {{ ui.cartao(filme) }}
+        </li>
+      {% endfor %}
+    </ol>
+  </section>
+{% endfor %}
 
 <section class="bloco">
   <h2 class="bloco__titulo">Por gênero</h2>

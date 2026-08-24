@@ -12,15 +12,17 @@ projeto — está em [docs/SPECS.md](docs/SPECS.md).
 ## Estrutura
 
 ```
-docs/                 SPECS e documentação do projeto
+docs/                 SPECS e esquema do banco
+README.md
 notebooks/            análise exploratória da base
 src/
 ├── api/              aplicação FastAPI
 │   ├── static/       CSS
-│   └── templates/    Jinja2
-├── data/             esquema do banco e carga do ml-100k
-├── recommenders/     as prateleiras da home (top 10, aleatório, ...)
+│   └── template/     Jinja2
+├── data/             esquema do banco, carga do ml-100k e consultas
+├── recommenders/     as prateleiras da home (top 10, mais avaliados, aleatório)
 └── services/         integrações externas (TMDB)
+tests/                testes (só biblioteca padrão)
 ```
 
 ## Rodando
@@ -35,6 +37,13 @@ python -m src.data.carga --dados ~/Downloads/ml-100k   # cria movielens.db
 export TMDB_API_KEY=sua_chave                          # themoviedb.org/settings/api
 python -m src.services.scraper                         # elenco, direção e imagens (ou --simular)
 uvicorn src.api.app:app --reload                       # http://127.0.0.1:8000
+```
+
+Os testes não precisam do banco nem do dataset — montam um banco de brinquedo
+em memória com o esquema de verdade:
+
+```bash
+python -m unittest discover -s tests -t .
 ```
 
 `notebooks/analise_movielens.py` gera a análise exploratória da base em texto,
