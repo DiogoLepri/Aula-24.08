@@ -4,7 +4,7 @@
 import unittest
 
 from src.data import consultas
-from src.recommenders import PRATELEIRAS, aleatorio, populares, prateleiras, top10
+from src.data.recommenders import PRATELEIRAS, aleatorio, populares, prateleiras, top10
 from tests.base import ComBanco
 
 

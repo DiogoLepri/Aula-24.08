@@ -9,7 +9,7 @@ A home so monta o que sair de prateleiras(); para mudar a ordem, tirar ou
 acrescentar uma prateleira, mexe-se so na tupla PRATELEIRAS.
 """
 
-from src.recommenders import aleatorio, populares, top10
+from src.data.recommenders import aleatorio, populares, top10
 
 LIMITE = 10
 

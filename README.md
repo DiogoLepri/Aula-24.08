@@ -20,7 +20,7 @@ src/
 │   ├── static/       CSS
 │   └── template/     Jinja2
 ├── data/             esquema do banco, carga do ml-100k e consultas
-├── recommenders/     as prateleiras da home (top 10, mais avaliados, aleatório)
+│   └── recommenders/ as prateleiras da home (top 10, mais avaliados, aleatório)
 └── services/         integrações externas (TMDB)
 tests/                testes (só biblioteca padrão)
 ```

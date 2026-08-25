@@ -25,7 +25,7 @@ src/
 │   ├── static/       CSS
 │   └── template/     Jinja2
 ├── data/             esquema do banco, carga do ml-100k e consultas
-├── recommenders/     as prateleiras da home (top 10, mais avaliados, aleatório)
+│   └── recommenders/ as prateleiras da home (top 10, mais avaliados, aleatório)
 └── services/         integrações externas (TMDB)
 tests/                testes (só biblioteca padrão)
 ```
@@ -40,7 +40,7 @@ tests/                testes (só biblioteca padrão)
 | `src/api/template/` | Jinja2: `base.html`, `home.html`, `filmes.html`, `filme.html`, `nao_encontrado.html` |
 | `src/api/static/estilo.css` | Todo o estilo do site |
 | `src/data/consultas.py` | As consultas que a listagem e a home fazem no banco |
-| `src/recommenders/` | Uma prateleira da home por módulo: `top10`, `populares`, `aleatorio` |
+| `src/data/recommenders/` | Uma prateleira da home por módulo: `top10`, `populares`, `aleatorio` |
 | `notebooks/analise_movielens.py` | Análise exploratória em texto, com foco nas categorias |
 | `tests/` | Testes em `unittest`, sobre um banco em memória |
 | `requirements.txt` | Dependências |
@@ -126,7 +126,7 @@ o critério.
 
 ### As prateleiras da home
 
-Cada uma é um módulo em `src/recommenders/`, todos com a mesma forma (`NOME`,
+Cada uma é um módulo em `src/data/recommenders/`, todos com a mesma forma (`NOME`,
 `TITULO`, `LINK`, `linha()` e `selecionar(conexao, limite)`), e a home monta o
 que estiver na tupla `PRATELEIRAS`. São dez filmes por prateleira, numa fileira
 que rola de lado:

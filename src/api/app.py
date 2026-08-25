@@ -4,7 +4,7 @@
     uvicorn src.api.app:app --reload
 
 As rotas so juntam o que src/data/consultas.py le do banco e o que
-src/recommenders/ escolhe para a home, e entregam ao template.
+src/data/recommenders/ escolhe para a home, e entregam ao template.
 """
 
 import os
@@ -17,7 +17,7 @@ from fastapi.templating import Jinja2Templates
 
 from src.data import consultas
 from src.data.banco import conexao_web
-from src.recommenders import prateleiras
+from src.data.recommenders import prateleiras
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 
