@@ -5,6 +5,8 @@
 
 {% block conteudo %}
 
+<div class="pagina faixa-conteudo">
+
 <h1 class="pagina__titulo">Filmes</h1>
 
 <form class="filtros" method="get" action="/filmes">
@@ -80,8 +82,10 @@
   <div class="vazio">
     <p class="vazio__titulo">Nenhum filme com esses filtros.</p>
     <p>Tente um trecho menor do título, ou tire o gênero.</p>
-    <a class="mais" href="/filmes">Ver todos os filmes</a>
+    <a class="botao botao--vermelho" href="/filmes">Ver todos os filmes</a>
   </div>
 {% endif %}
+
+</div>
 
 {% endblock %}

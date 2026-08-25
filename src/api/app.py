@@ -28,23 +28,14 @@ templates = Jinja2Templates(directory=os.path.join(AQUI, "template"))
 
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request, conexao: sqlite3.Connection = Depends(conexao_web)):
-    """Numeros gerais da base, a estante de posteres e as prateleiras."""
+    """A abertura com o filme em destaque, as prateleiras e os numeros da base."""
     return templates.TemplateResponse(
         request,
         "home.html",
         {
             "numeros": consultas.numeros_gerais(conexao),
             "perfil_geral": consultas.distribuicao_geral(conexao),
-            "estante": conexao.execute(
-                """
-                SELECT f.id, f.poster, f.titulo_busca
-                FROM filme f
-                JOIN filme_estatistica e ON e.filme_id = f.id
-                WHERE f.poster IS NOT NULL
-                ORDER BY e.qtd DESC
-                LIMIT 10
-                """
-            ).fetchall(),
+            "destaque": consultas.destaque(conexao),
             "prateleiras": prateleiras(conexao),
             "categorias": consultas.lista_categorias(conexao),
             "min_avaliacoes": consultas.MIN_AVALIACOES,
@@ -144,6 +135,7 @@ def detalhe(
             "filme": linha,
             "categorias": categorias,
             "perfil": consultas.perfil(linha),
+            "aprovacao": consultas.aprovacao(linha),
             "diretores": [p for p in equipe if p["papel"] == "diretor"],
             "atores": [p for p in equipe if p["papel"] == "ator"],
             "por_sexo": {p["sexo"]: p for p in por_sexo},

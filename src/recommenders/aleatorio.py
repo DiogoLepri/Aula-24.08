@@ -9,12 +9,12 @@ viu, sem barra de notas nenhuma.
 from src.data import consultas
 
 NOME = "aleatorio"
-TITULO = "Aleatorio"
+TITULO = "Aleatório"
 LINK = "/filmes?ordem=titulo"
 
 
 def linha():
-    return "Dez filmes sorteados da base. Recarregue a pagina para outros dez."
+    return "Dez filmes sorteados da base. Recarregue a página para outros dez."
 
 
 def selecionar(conexao, limite=10):

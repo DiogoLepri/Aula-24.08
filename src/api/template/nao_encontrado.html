@@ -3,9 +3,9 @@
 {% block titulo %}Filme não encontrado · MovieLens 100k{% endblock %}
 
 {% block conteudo %}
-<div class="vazio">
+<div class="vazio faixa-conteudo">
   <p class="vazio__titulo">Não existe filme com o identificador {{ filme_id }}.</p>
   <p>Os identificadores do MovieLens vão de 1 a 1682.</p>
-  <a class="mais" href="/filmes">Ver todos os filmes</a>
+  <a class="botao botao--vermelho" href="/filmes">Ver todos os filmes</a>
 </div>
 {% endblock %}

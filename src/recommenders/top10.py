@@ -14,8 +14,8 @@ LINK = "/filmes?ordem=nota"
 
 def linha():
     return (
-        f"As dez melhores medias entre os filmes com pelo menos "
-        f"{consultas.MIN_AVALIACOES} avaliacoes."
+        f"As dez melhores médias entre os filmes com pelo menos "
+        f"{consultas.MIN_AVALIACOES} avaliações."
     )
 
 

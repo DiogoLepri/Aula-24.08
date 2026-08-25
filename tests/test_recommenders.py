@@ -69,7 +69,8 @@ class TestPrateleiras(ComBanco):
     def test_o_cartao_traz_tudo_que_o_template_usa(self):
         cartao = prateleiras(self.conexao, limite=1)[0]["filmes"][0]
         self.assertEqual(
-            {"id", "titulo", "ano", "poster", "qtd", "media", "categorias", "perfil"},
+            {"id", "titulo", "ano", "poster", "qtd", "media", "categorias",
+             "perfil", "aprovacao"},
             set(cartao),
         )
         self.assertEqual(5, len(cartao["perfil"]))

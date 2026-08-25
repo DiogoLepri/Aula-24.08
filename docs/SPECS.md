@@ -142,12 +142,37 @@ Acrescentar uma prateleira é escrever o módulo e pô-lo na tupla — a home e 
 
 ## Design
 
-Identidade: fundo de papel quente, display **Bricolage Grotesque**, texto
-**Public Sans**, números em **IBM Plex Mono**, acento terracota. A distribuição
-de notas (1–5) aparece como barra empilhada colorida em todos os cards e no
-detalhe. Imagens vêm da CDN do TMDB (`image.tmdb.org`); filmes sem pôster e
+Visual de serviço de streaming — a referência é a Netflix, e a escolha não é
+só estética: o catálogo é uma lista de filmes com pôster, que é exatamente o
+que esse desenho resolve bem.
+
+- **Cor:** fundo `#141414`, superfícies `#1f1f1f`, texto branco sobre cinza
+  `#b3b3b3`, acento vermelho `#e50914`. Verde `#46d369` só para o percentual
+  de aprovação.
+- **Tipografia:** Inter, do 400 ao 900. Títulos em 900 com `letter-spacing`
+  negativo; números com `tabular-nums` para as colunas não dançarem.
+- **Abertura:** o filme mais avaliado da base ocupa a tela inteira, com o
+  pôster desfocado e ampliado como fundo, dois véus de gradiente por cima e o
+  texto à esquerda. O topo é transparente sobre ele e escurece ao rolar
+  (única linha de JavaScript do site).
+- **Cartão:** o pôster manda. De pé, só o título sobre um gradiente; no hover
+  ou no foco o cartão cresce 5% e revela aprovação, ano, a barra de
+  distribuição, a média e os gêneros.
+- **Prateleiras:** fileira que rola de lado, dez por vez, com `scroll-snap`.
+  Nas duas que são ranking, o numerão vai atrás do pôster, vazado, com o `1`
+  em vermelho — `scroll-padding` alinha o primeiro cartão com o título da
+  seção.
+- **O número verde:** a média sozinha achata a diferença entre um filme que
+  todo mundo achou bom e um que metade amou. O cartão mostra a **fatia de
+  notas 4 e 5** (`consultas.aprovacao`), que é o que a base tem de mais
+  próximo de um "% de quem gostou". A média continua ali, ao lado.
+
+A distribuição de notas (1–5) segue como barra empilhada colorida em todos os
+cartões e no detalhe — é o dado do trabalho, e o visual escuro só mudou as
+cores dela. Imagens vêm da CDN do TMDB (`image.tmdb.org`); filmes sem pôster e
 pessoas sem foto recebem um placeholder tipográfico. Estados de hover e foco
-visíveis, `prefers-reduced-motion` respeitado, layout responsivo.
+visíveis, `prefers-reduced-motion` respeitado, layout responsivo (no celular
+as fileiras viram grade).
 
 ## Limitações conhecidas
 

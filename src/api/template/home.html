@@ -3,30 +3,89 @@
 
 {% block conteudo %}
 
-<section class="abertura">
-  <h1 class="abertura__titulo">
-    Cem mil notas,<br>de <span class="numero-destaque">{{ numeros.usuarios }}</span> pessoas,
-    em oito meses.
-  </h1>
-  <p class="abertura__texto">
-    Foi assim que <span class="numero">{{ numeros.filmes }}</span> filmes foram avaliados
-    quando o MovieLens ainda era um experimento de laboratório. Cada nota vai de 1 a 5 —
-    é a única coisa que essas pessoas disseram, e é o que dá para ler aqui.
-  </p>
+{% if destaque %}
+  <section class="destaque">
+    {% if destaque.poster %}
+      <div class="destaque__fundo"
+           style="background-image: url('https://image.tmdb.org/t/p/w780{{ destaque.poster }}')"
+           aria-hidden="true"></div>
+    {% endif %}
+    <div class="destaque__veu" aria-hidden="true"></div>
 
-  {% if estante %}
-    <ul class="estante">
-      {% for filme in estante %}
-        <li class="estante__item">
-          <a href="/filmes/{{ filme.id }}" title="{{ filme.titulo_busca }}">
-            <img src="https://image.tmdb.org/t/p/w185{{ filme.poster }}"
-                 alt="Pôster de {{ filme.titulo_busca }}"
-                 loading="lazy" width="185" height="278">
-          </a>
+    <div class="destaque__caixa">
+      <p class="destaque__etiqueta">O mais avaliado da base</p>
+      <h1 class="destaque__titulo">{{ destaque.titulo }}</h1>
+
+      <p class="destaque__ficha">
+        {% if destaque.aprovacao is not none %}
+          <span class="destaque__aprovacao">
+            {{- '%.0f' | format(destaque.aprovacao) }}% gostaram</span>
+        {% endif %}
+        <span class="numero">{{ destaque.ano or '—' }}</span>
+        <span class="destaque__classificacao">{{ destaque.categorias | join(' · ') }}</span>
+      </p>
+
+      <p class="destaque__texto">
+        <span class="numero">{{ destaque.qtd }}</span> das
+        <span class="numero">{{ '{:,}'.format(numeros.avaliacoes) | replace(',', '.') }}</span>
+        notas da base são deste filme — média
+        <strong class="numero">{{ '%.2f' | format(destaque.media) | replace('.', ',') }}</strong>.
+        Nenhum outro apareceu tanto na tela de quem estava avaliando.
+      </p>
+
+      <div class="destaque__botoes">
+        <a class="botao botao--claro" href="/filmes/{{ destaque.id }}">▶ Ver o filme</a>
+        <a class="botao botao--fosco" href="/filmes">Explorar o catálogo</a>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% for prateleira in prateleiras %}
+  <section class="prateleira prateleira--{{ prateleira.nome }}">
+    <div class="prateleira__topo">
+      <div>
+        <h2 class="prateleira__titulo">{{ prateleira.titulo }}</h2>
+        <p class="prateleira__linha">{{ prateleira.linha }}</p>
+      </div>
+      <a class="mais" href="{{ prateleira.link }}">Ver a lista inteira</a>
+    </div>
+
+    <ol class="fileira">
+      {% for filme in prateleira.filmes %}
+        <li class="fileira__item">
+          <span class="fileira__posicao" aria-hidden="true">{{ loop.index }}</span>
+          {{ ui.cartao(filme) }}
         </li>
       {% endfor %}
-    </ul>
-  {% endif %}
+    </ol>
+  </section>
+{% endfor %}
+
+<section class="bloco faixa-conteudo">
+  <h2 class="bloco__titulo">A base inteira, em números</h2>
+  <p class="bloco__linha">
+    Cem mil notas de 1 a 5 — a única coisa que essas pessoas disseram, e é o que dá para ler aqui.
+  </p>
+
+  <ul class="placar">
+    <li class="placar__item">
+      <span class="placar__valor numero">{{ '{:,}'.format(numeros.avaliacoes) | replace(',', '.') }}</span>
+      <span class="placar__rotulo">avaliações</span>
+    </li>
+    <li class="placar__item">
+      <span class="placar__valor numero">{{ '{:,}'.format(numeros.filmes) | replace(',', '.') }}</span>
+      <span class="placar__rotulo">filmes</span>
+    </li>
+    <li class="placar__item">
+      <span class="placar__valor numero">{{ numeros.usuarios }}</span>
+      <span class="placar__rotulo">pessoas</span>
+    </li>
+    <li class="placar__item">
+      <span class="placar__valor numero">{{ '%.2f' | format(numeros.media) | replace('.', ',') }}</span>
+      <span class="placar__rotulo">nota média</span>
+    </li>
+  </ul>
 
   <div class="global">
     <p class="global__rotulo">Todas as avaliações da base</p>
@@ -42,35 +101,15 @@
       {% endfor %}
     </ul>
     <p class="global__nota">
-      Média geral <strong class="numero">{{ '%.2f' | format(numeros.media) | replace('.', ',') }}</strong>.
       As pessoas avaliaram mais o que gostaram: notas 4 e 5 são a maior parte da base.
+      É por isso que o cartão mostra <strong>quanta gente gostou</strong> — a fatia de
+      notas 4 e 5 — e não só a média.
     </p>
   </div>
 </section>
 
-{% for prateleira in prateleiras %}
-  <section class="bloco prateleira prateleira--{{ prateleira.nome }}">
-    <div class="prateleira__topo">
-      <div>
-        <h2 class="bloco__titulo">{{ prateleira.titulo }}</h2>
-        <p class="bloco__linha">{{ prateleira.linha }}</p>
-      </div>
-      <a class="mais" href="{{ prateleira.link }}">Ver a lista inteira</a>
-    </div>
-
-    <ol class="fileira">
-      {% for filme in prateleira.filmes %}
-        <li class="fileira__item">
-          <span class="fileira__posicao numero" aria-hidden="true">{{ loop.index }}</span>
-          {{ ui.cartao(filme) }}
-        </li>
-      {% endfor %}
-    </ol>
-  </section>
-{% endfor %}
-
-<section class="bloco">
-  <h2 class="bloco__titulo">Por gênero</h2>
+<section class="bloco faixa-conteudo">
+  <h2 class="bloco__titulo">Navegar por gênero</h2>
   <p class="bloco__linha">
     Um filme pode estar em vários gêneros, então as contagens somam mais que o catálogo.
   </p>

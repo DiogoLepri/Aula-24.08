@@ -22,106 +22,124 @@
   </li>
 {% endmacro %}
 
-<a class="voltar" href="/filmes">← Filmes</a>
-
 <article class="ficha">
-  <div class="ficha__principal">
-    <div class="ficha__capa">
-      {% if filme.poster %}
-        <img class="ficha__poster"
-             src="https://image.tmdb.org/t/p/w500{{ filme.poster }}"
-             alt="Pôster de {{ filme.titulo_busca }}"
-             width="500" height="750">
-      {% else %}
-        <div class="ficha__capa-vazia" aria-hidden="true">{{ filme.titulo_busca[:1] }}</div>
-      {% endif %}
-    </div>
-
-    <header class="ficha__topo">
-      <h1 class="ficha__titulo">{{ filme.titulo_busca }}</h1>
-      <p class="ficha__meta">
-        <span class="numero">{{ filme.ano or 'ano não informado' }}</span>
-      </p>
-      {% if categorias %}
-        <ul class="generos generos--ficha">
-          {% for categoria in categorias %}
-            <li><a href="/filmes?genero={{ categoria | urlencode }}">{{ categoria }}</a></li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-      {% if filme.titulo_alt %}
-        <p class="ficha__alt">Também no catálogo como <em>{{ filme.titulo_alt }}</em></p>
-      {% endif %}
-    </header>
+  <div class="ficha__cenario" aria-hidden="true">
+    {% if filme.poster %}
+      <div class="ficha__fundo"
+           style="background-image: url('https://image.tmdb.org/t/p/w780{{ filme.poster }}')"></div>
+    {% endif %}
+    <div class="ficha__veu"></div>
   </div>
 
-  <section class="notas">
-    <h2 class="secao__titulo">Como foi avaliado</h2>
-    {% if filme.qtd %}
-      <p class="notas__resumo">
-        <strong class="numero notas__media">{{ '%.2f' | format(filme.media) | replace('.', ',') }}</strong>
-        <span>de média em <span class="numero">{{ filme.qtd }}</span> avaliações</span>
-      </p>
-      {{ ui.barra(perfil, 'grossa') }}
-      <ul class="legenda">
-        {% for faixa in perfil %}
-          <li class="legenda__item">
-            <span class="legenda__cor legenda__cor--{{ faixa.nota }}"></span>
-            <span class="legenda__nota">nota {{ faixa.nota }}</span>
-            <span class="numero legenda__qtd">{{ faixa.qtd }}</span>
-            <span class="legenda__pct numero">{{ '%.0f' | format(faixa.fatia) }}%</span>
-          </li>
-        {% endfor %}
-      </ul>
+  <div class="faixa-conteudo">
+    <a class="voltar" href="/filmes">‹ Filmes</a>
 
-      {% if por_sexo %}
-        <p class="notas__recorte">
-          {% if 'F' in por_sexo %}
-            Mulheres deram
-            <strong class="numero">{{ '%.2f' | format(por_sexo['F'].media) | replace('.', ',') }}</strong>
-            em <span class="numero">{{ por_sexo['F'].qtd }}</span> avaliações.
+    <div class="ficha__principal">
+      <div class="ficha__capa">
+        {% if filme.poster %}
+          <img class="ficha__poster"
+               src="https://image.tmdb.org/t/p/w500{{ filme.poster }}"
+               alt="Pôster de {{ filme.titulo_busca }}"
+               width="500" height="750">
+        {% else %}
+          <div class="ficha__capa-vazia" aria-hidden="true">{{ filme.titulo_busca[:1] }}</div>
+        {% endif %}
+      </div>
+
+      <header class="ficha__topo">
+        <h1 class="ficha__titulo">{{ filme.titulo_busca }}</h1>
+        <p class="ficha__meta">
+          {% if aprovacao is not none %}
+            <span class="ficha__aprovacao">{{ '%.0f' | format(aprovacao) }}% gostaram</span>
           {% endif %}
-          {% if 'M' in por_sexo %}
-            Homens,
-            <strong class="numero">{{ '%.2f' | format(por_sexo['M'].media) | replace('.', ',') }}</strong>
-            em <span class="numero">{{ por_sexo['M'].qtd }}</span>.
+          <span class="numero">{{ filme.ano or 'ano não informado' }}</span>
+          {% if filme.qtd %}
+            <span><span class="numero">{{ filme.qtd }}</span> avaliações</span>
           {% endif %}
         </p>
-      {% endif %}
-    {% else %}
-      <p class="vazio__titulo">Este filme está no catálogo, mas ninguém o avaliou.</p>
-    {% endif %}
-  </section>
+        {% if categorias %}
+          <ul class="generos generos--ficha">
+            {% for categoria in categorias %}
+              <li><a href="/filmes?genero={{ categoria | urlencode }}">{{ categoria }}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% if filme.titulo_alt %}
+          <p class="ficha__alt">Também no catálogo como <em>{{ filme.titulo_alt }}</em></p>
+        {% endif %}
+      </header>
+    </div>
 
-  <section class="equipe">
-    <h2 class="secao__titulo">Quem fez</h2>
-    {% if diretores or atores %}
-      <ul class="elenco">
-        {% for pessoa in diretores %}
-          {{ retrato(pessoa, 'Direção') }}
-        {% endfor %}
-        {% for pessoa in atores %}
-          {{ retrato(pessoa, 'Elenco') }}
-        {% endfor %}
-      </ul>
-      <p class="equipe__fonte">Fonte: TMDB.</p>
-    {% else %}
-      <p class="vazio__titulo">Elenco e direção ainda não foram coletados.</p>
+    <div class="ficha__corpo">
+      <section class="painel equipe">
+        <h2 class="secao__titulo">Quem fez</h2>
+        {% if diretores or atores %}
+          <ul class="elenco">
+            {% for pessoa in diretores %}
+              {{ retrato(pessoa, 'Direção') }}
+            {% endfor %}
+            {% for pessoa in atores %}
+              {{ retrato(pessoa, 'Elenco') }}
+            {% endfor %}
+          </ul>
+          <p class="equipe__fonte">Fonte: TMDB.</p>
+        {% else %}
+          <p class="vazio__titulo">Elenco e direção ainda não foram coletados.</p>
+          <p>
+            O MovieLens não traz esses dados — eles vêm do TMDB, por um script à
+            parte. Rode <code>python -m src.services.scraper</code> para preencher.
+          </p>
+        {% endif %}
+      </section>
+
+      <section class="painel notas">
+        <h2 class="secao__titulo">Como foi avaliado</h2>
+        {% if filme.qtd %}
+          <p class="notas__resumo">
+            <strong class="numero notas__media">{{ '%.2f' | format(filme.media) | replace('.', ',') }}</strong>
+            <span>de média em <span class="numero">{{ filme.qtd }}</span> avaliações</span>
+          </p>
+          {{ ui.barra(perfil, 'grossa') }}
+          <ul class="legenda">
+            {% for faixa in perfil %}
+              <li class="legenda__item">
+                <span class="legenda__cor legenda__cor--{{ faixa.nota }}"></span>
+                <span class="legenda__nota">nota {{ faixa.nota }}</span>
+                <span class="numero legenda__qtd">{{ faixa.qtd }}</span>
+                <span class="legenda__pct numero">{{ '%.0f' | format(faixa.fatia) }}%</span>
+              </li>
+            {% endfor %}
+          </ul>
+
+          {% if por_sexo %}
+            <p class="notas__recorte">
+              {% if 'F' in por_sexo %}
+                Mulheres deram
+                <strong class="numero">{{ '%.2f' | format(por_sexo['F'].media) | replace('.', ',') }}</strong>
+                em <span class="numero">{{ por_sexo['F'].qtd }}</span> avaliações.
+              {% endif %}
+              {% if 'M' in por_sexo %}
+                Homens,
+                <strong class="numero">{{ '%.2f' | format(por_sexo['M'].media) | replace('.', ',') }}</strong>
+                em <span class="numero">{{ por_sexo['M'].qtd }}</span>.
+              {% endif %}
+            </p>
+          {% endif %}
+        {% else %}
+          <p class="vazio__titulo">Este filme está no catálogo, mas ninguém o avaliou.</p>
+        {% endif %}
+      </section>
+    </div>
+
+    <footer class="ficha__rodape">
       <p>
-        O MovieLens não traz esses dados — eles vêm do TMDB, por um script à parte.
-        Rode <code>python scraper.py</code> para preencher.
+        Identificador no MovieLens: <span class="numero">{{ filme.id }}</span>.
+        {% if filme.data_lancamento %}
+          Lançamento em <span class="numero">{{ filme.data_lancamento }}</span>.
+        {% endif %}
       </p>
-    {% endif %}
-  </section>
-
-  <footer class="ficha__rodape">
-    <p>
-      Identificador no MovieLens: <span class="numero">{{ filme.id }}</span>.
-      {% if filme.data_lancamento %}
-        Lançamento em <span class="numero">{{ filme.data_lancamento }}</span>.
-      {% endif %}
-    </p>
-  </footer>
+    </footer>
+  </div>
 </article>
 
 {% endblock %}

@@ -28,6 +28,18 @@ ORDENS = {
 }
 
 
+def aprovacao(linha):
+    """Que fatia das notas foi 4 ou 5.
+
+    E o numero verde do cartao. Nao e a media: e quanta gente gostou. Um filme
+    de media 3,9 com metade das notas em 5 e outra coisa de um de media 3,9
+    com todo mundo dando 4.
+    """
+    if not linha["qtd"]:
+        return None
+    return (linha["n4"] + linha["n5"]) / linha["qtd"] * 100
+
+
 def perfil(linha):
     """A distribuicao 1-5 do filme, em contagem e em porcentagem."""
     contagens = [linha["n1"], linha["n2"], linha["n3"], linha["n4"], linha["n5"]]
@@ -72,6 +84,7 @@ def montar_cartoes(conexao, linhas):
             "media": linha["media"],
             "categorias": por_filme.get(linha["id"], []),
             "perfil": perfil(linha),
+            "aprovacao": aprovacao(linha),
         }
         for linha in linhas
     ]
@@ -122,6 +135,17 @@ def buscar_filmes(conexao, q, genero, ordem, pagina):
     ).fetchall()
 
     return montar_cartoes(conexao, linhas), total, pagina, paginas
+
+
+def destaque(conexao):
+    """O filme da abertura da home: o mais avaliado que tem poster."""
+    escolhidos = cartoes(
+        conexao,
+        onde="WHERE f.poster IS NOT NULL",
+        ordem="e.qtd DESC",
+        limite=1,
+    )
+    return escolhidos[0] if escolhidos else None
 
 
 def lista_categorias(conexao):

@@ -13,7 +13,7 @@ LINK = "/filmes?ordem=avaliados"
 
 
 def linha():
-    return "Os dez que mais gente viu e notou - volume, nao nota."
+    return "Os dez que mais gente viu e notou — volume, não nota."
 
 
 def selecionar(conexao, limite=10):
