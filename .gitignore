@@ -3,3 +3,6 @@ __pycache__/
 *.db
 ml-100k/
 .DS_Store
+
+# pasta temporária de triagem
+_fora_da_estrutura/

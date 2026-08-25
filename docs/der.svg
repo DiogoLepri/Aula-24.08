@@ -1,0 +1,196 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 900" width="1500" height="900" font-family="Inter, Helvetica, Arial, sans-serif">
+  <rect width="1500" height="900" fill="#ffffff"/>
+  <text x="40" y="46" font-size="21" font-weight="800" fill="#111827">DER — Catálogo MovieLens 100k</text>
+  <text x="40" y="68" font-size="12.5" fill="#6b7280">SQLite · esquema em src/data/esquema.sql · filme no centro, ligado a usuário, categorias e pessoas (atores e diretores)</text>
+  <path d="M285 373.5 L355 373.5" stroke="#5b6572" stroke-width="1.6" fill="none"/>
+  <line x1="294" y1="366.5" x2="294" y2="380.5" stroke="#5b6572" stroke-width="1.6"/>
+  <path d="M344 373.5 L355 366.5 M344 373.5 L355 373.5 M344 373.5 L355 380.5" stroke="#5b6572" stroke-width="1.6" fill="none"/>
+  <rect x="289.5" y="362.5" width="61" height="18" rx="9" fill="#ffffff"/>
+  <text x="320.0" y="375.5" font-size="11" text-anchor="middle" fill="#6b7280">dá nota</text>
+  <path d="M670 373.5 L600 373.5" stroke="#5b6572" stroke-width="1.6" fill="none"/>
+  <line x1="661" y1="366.5" x2="661" y2="380.5" stroke="#5b6572" stroke-width="1.6"/>
+  <path d="M611 373.5 L600 366.5 M611 373.5 L600 373.5 M611 373.5 L600 380.5" stroke="#5b6572" stroke-width="1.6" fill="none"/>
+  <rect x="590.5" y="362.5" width="89" height="18" rx="9" fill="#ffffff"/>
+  <text x="635.0" y="375.5" font-size="11" text-anchor="middle" fill="#6b7280">recebe nota</text>
+  <path d="M740 240 L740 99.0 L1000 99.0" stroke="#5b6572" stroke-width="1.6" fill="none"/>
+  <line x1="733" y1="231" x2="747" y2="231" stroke="#5b6572" stroke-width="1.6"/>
+  <path d="M989 99.0 L1000 92.0 M989 99.0 L1000 99.0 M989 99.0 L1000 106.0" stroke="#5b6572" stroke-width="1.6" fill="none"/>
+  <path d="M1235 99.0 L1290 99.0" stroke="#5b6572" stroke-width="1.6" fill="none"/>
+  <path d="M1246 99.0 L1235 92.0 M1246 99.0 L1235 99.0 M1246 99.0 L1235 106.0" stroke="#5b6572" stroke-width="1.6" fill="none"/>
+  <line x1="1281" y1="92.0" x2="1281" y2="106.0" stroke="#5b6572" stroke-width="1.6"/>
+  <path d="M865 456 L865 532.0 L1000 532.0" stroke="#5b6572" stroke-width="1.6" fill="none"/>
+  <line x1="858" y1="465" x2="872" y2="465" stroke="#5b6572" stroke-width="1.6"/>
+  <path d="M989 532.0 L1000 525.0 M989 532.0 L1000 532.0 M989 532.0 L1000 539.0" stroke="#5b6572" stroke-width="1.6" fill="none"/>
+  <path d="M1235 532.0 L1290 532.0" stroke="#5b6572" stroke-width="1.6" fill="none"/>
+  <path d="M1246 532.0 L1235 525.0 M1246 532.0 L1235 532.0 M1246 532.0 L1235 539.0" stroke="#5b6572" stroke-width="1.6" fill="none"/>
+  <line x1="1281" y1="525.0" x2="1281" y2="539.0" stroke="#5b6572" stroke-width="1.6"/>
+  <path d="M820 456 L820 620" stroke="#5b6572" stroke-width="1.6" fill="none"/>
+  <line x1="813" y1="465" x2="827" y2="465" stroke="#5b6572" stroke-width="1.6"/>
+  <line x1="813" y1="611" x2="827" y2="611" stroke="#5b6572" stroke-width="1.6"/>
+  <rect x="786.0" y="527.0" width="68" height="18" rx="9" fill="#ffffff"/>
+  <text x="820" y="540.0" font-size="11" text-anchor="middle" fill="#6b7280">1 para 1</text>
+  <path d="M670 408.0 L635 408.0 L635 682.0 L600 682.0" stroke="#5b6572" stroke-width="1.6" fill="none"/>
+  <line x1="661" y1="401.0" x2="661" y2="415.0" stroke="#5b6572" stroke-width="1.6"/>
+  <line x1="609" y1="675.0" x2="609" y2="689.0" stroke="#5b6572" stroke-width="1.6"/>
+  <g><rect x="40" y="300" width="245" height="147" rx="7" fill="#ffffff" stroke="#c3cad4" stroke-width="1.5"/>
+  <path d="M40 332 v-25 a7 7 0 0 1 7 -7 h231 a7 7 0 0 1 7 7 v25 z" fill="#374151"/>
+  <text x="52" y="321" font-size="14" font-weight="700" fill="#ffffff" letter-spacing="0.6">USUARIO</text>
+  <text x="50" y="348" font-size="9.5" font-weight="700" fill="#0b6a9c" letter-spacing="0.3">PK</text>
+  <text x="92" y="348" font-size="12.5" fill="#111827" font-weight="700">id</text>
+  <text x="275" y="348" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="41" y1="355" x2="284" y2="355" stroke="#eef1f5" stroke-width="1"/>
+  <text x="92" y="371" font-size="12.5" fill="#111827">idade</text>
+  <text x="275" y="371" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="41" y1="378" x2="284" y2="378" stroke="#eef1f5" stroke-width="1"/>
+  <text x="92" y="394" font-size="12.5" fill="#111827">sexo</text>
+  <text x="275" y="394" font-size="10.5" text-anchor="end" fill="#6b7280">TEXT M/F</text>
+  <line x1="41" y1="401" x2="284" y2="401" stroke="#eef1f5" stroke-width="1"/>
+  <text x="92" y="417" font-size="12.5" fill="#111827">ocupacao</text>
+  <text x="275" y="417" font-size="10.5" text-anchor="end" fill="#6b7280">TEXT</text>
+  <line x1="41" y1="424" x2="284" y2="424" stroke="#eef1f5" stroke-width="1"/>
+  <text x="92" y="440" font-size="12.5" fill="#111827">cep</text>
+  <text x="275" y="440" font-size="10.5" text-anchor="end" fill="#6b7280">TEXT</text>
+  </g>
+  <g><rect x="355" y="300" width="245" height="124" rx="7" fill="#ffffff" stroke="#c3cad4" stroke-width="1.5"/>
+  <path d="M355 332 v-25 a7 7 0 0 1 7 -7 h231 a7 7 0 0 1 7 7 v25 z" fill="#4b5563"/>
+  <text x="367" y="321" font-size="14" font-weight="700" fill="#ffffff" letter-spacing="0.6">AVALIACAO</text>
+  <text x="365" y="348" font-size="9.5" font-weight="700" fill="#0b6a9c" letter-spacing="0.3">PK FK</text>
+  <text x="407" y="348" font-size="12.5" fill="#111827" font-weight="700">usuario_id</text>
+  <text x="590" y="348" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="356" y1="355" x2="599" y2="355" stroke="#eef1f5" stroke-width="1"/>
+  <text x="365" y="371" font-size="9.5" font-weight="700" fill="#0b6a9c" letter-spacing="0.3">PK FK</text>
+  <text x="407" y="371" font-size="12.5" fill="#111827" font-weight="700">filme_id</text>
+  <text x="590" y="371" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="356" y1="378" x2="599" y2="378" stroke="#eef1f5" stroke-width="1"/>
+  <text x="407" y="394" font-size="12.5" fill="#111827">nota</text>
+  <text x="590" y="394" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER 1-5</text>
+  <line x1="356" y1="401" x2="599" y2="401" stroke="#eef1f5" stroke-width="1"/>
+  <text x="407" y="417" font-size="12.5" fill="#111827">avaliado_em</text>
+  <text x="590" y="417" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  </g>
+  <g><rect x="670" y="240" width="265" height="216" rx="7" fill="#ffffff" stroke="#c3cad4" stroke-width="1.5"/>
+  <path d="M670 272 v-25 a7 7 0 0 1 7 -7 h251 a7 7 0 0 1 7 7 v25 z" fill="#146eb4"/>
+  <text x="682" y="261" font-size="14" font-weight="700" fill="#ffffff" letter-spacing="0.6">FILME</text>
+  <text x="680" y="288" font-size="9.5" font-weight="700" fill="#0b6a9c" letter-spacing="0.3">PK</text>
+  <text x="722" y="288" font-size="12.5" fill="#111827" font-weight="700">id</text>
+  <text x="925" y="288" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="671" y1="295" x2="934" y2="295" stroke="#eef1f5" stroke-width="1"/>
+  <text x="722" y="311" font-size="12.5" fill="#111827">titulo</text>
+  <text x="925" y="311" font-size="10.5" text-anchor="end" fill="#6b7280">TEXT</text>
+  <line x1="671" y1="318" x2="934" y2="318" stroke="#eef1f5" stroke-width="1"/>
+  <text x="722" y="334" font-size="12.5" fill="#111827">titulo_busca</text>
+  <text x="925" y="334" font-size="10.5" text-anchor="end" fill="#6b7280">TEXT</text>
+  <line x1="671" y1="341" x2="934" y2="341" stroke="#eef1f5" stroke-width="1"/>
+  <text x="722" y="357" font-size="12.5" fill="#111827">titulo_alt</text>
+  <text x="925" y="357" font-size="10.5" text-anchor="end" fill="#6b7280">TEXT</text>
+  <line x1="671" y1="364" x2="934" y2="364" stroke="#eef1f5" stroke-width="1"/>
+  <text x="722" y="380" font-size="12.5" fill="#111827">ano</text>
+  <text x="925" y="380" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="671" y1="387" x2="934" y2="387" stroke="#eef1f5" stroke-width="1"/>
+  <text x="722" y="403" font-size="12.5" fill="#111827">data_lancamento</text>
+  <text x="925" y="403" font-size="10.5" text-anchor="end" fill="#6b7280">TEXT ISO</text>
+  <line x1="671" y1="410" x2="934" y2="410" stroke="#eef1f5" stroke-width="1"/>
+  <text x="722" y="426" font-size="12.5" fill="#111827">imdb_url</text>
+  <text x="925" y="426" font-size="10.5" text-anchor="end" fill="#6b7280">TEXT</text>
+  <line x1="671" y1="433" x2="934" y2="433" stroke="#eef1f5" stroke-width="1"/>
+  <text x="722" y="449" font-size="12.5" fill="#111827">poster</text>
+  <text x="925" y="449" font-size="10.5" text-anchor="end" fill="#6b7280">TEXT</text>
+  </g>
+  <g><rect x="1000" y="60" width="235" height="78" rx="7" fill="#ffffff" stroke="#c3cad4" stroke-width="1.5"/>
+  <path d="M1000 92 v-25 a7 7 0 0 1 7 -7 h221 a7 7 0 0 1 7 7 v25 z" fill="#4b5563"/>
+  <text x="1012" y="81" font-size="14" font-weight="700" fill="#ffffff" letter-spacing="0.6">FILME_CATEGORIA</text>
+  <text x="1010" y="108" font-size="9.5" font-weight="700" fill="#0b6a9c" letter-spacing="0.3">PK FK</text>
+  <text x="1052" y="108" font-size="12.5" fill="#111827" font-weight="700">filme_id</text>
+  <text x="1225" y="108" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="1001" y1="115" x2="1234" y2="115" stroke="#eef1f5" stroke-width="1"/>
+  <text x="1010" y="131" font-size="9.5" font-weight="700" fill="#0b6a9c" letter-spacing="0.3">PK FK</text>
+  <text x="1052" y="131" font-size="12.5" fill="#111827" font-weight="700">categoria_id</text>
+  <text x="1225" y="131" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  </g>
+  <g><rect x="1290" y="60" width="175" height="78" rx="7" fill="#ffffff" stroke="#c3cad4" stroke-width="1.5"/>
+  <path d="M1290 92 v-25 a7 7 0 0 1 7 -7 h161 a7 7 0 0 1 7 7 v25 z" fill="#374151"/>
+  <text x="1302" y="81" font-size="14" font-weight="700" fill="#ffffff" letter-spacing="0.6">CATEGORIA</text>
+  <text x="1300" y="108" font-size="9.5" font-weight="700" fill="#0b6a9c" letter-spacing="0.3">PK</text>
+  <text x="1342" y="108" font-size="12.5" fill="#111827" font-weight="700">id</text>
+  <text x="1455" y="108" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="1291" y1="115" x2="1464" y2="115" stroke="#eef1f5" stroke-width="1"/>
+  <text x="1300" y="131" font-size="9.5" font-weight="700" fill="#0b6a9c" letter-spacing="0.3">UK</text>
+  <text x="1342" y="131" font-size="12.5" fill="#111827">nome</text>
+  <text x="1455" y="131" font-size="10.5" text-anchor="end" fill="#6b7280">TEXT</text>
+  </g>
+  <g><rect x="1000" y="470" width="235" height="124" rx="7" fill="#ffffff" stroke="#c3cad4" stroke-width="1.5"/>
+  <path d="M1000 502 v-25 a7 7 0 0 1 7 -7 h221 a7 7 0 0 1 7 7 v25 z" fill="#4b5563"/>
+  <text x="1012" y="491" font-size="14" font-weight="700" fill="#ffffff" letter-spacing="0.6">FILME_PESSOA</text>
+  <text x="1010" y="518" font-size="9.5" font-weight="700" fill="#0b6a9c" letter-spacing="0.3">PK FK</text>
+  <text x="1052" y="518" font-size="12.5" fill="#111827" font-weight="700">filme_id</text>
+  <text x="1225" y="518" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="1001" y1="525" x2="1234" y2="525" stroke="#eef1f5" stroke-width="1"/>
+  <text x="1010" y="541" font-size="9.5" font-weight="700" fill="#0b6a9c" letter-spacing="0.3">PK FK</text>
+  <text x="1052" y="541" font-size="12.5" fill="#111827" font-weight="700">pessoa_id</text>
+  <text x="1225" y="541" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="1001" y1="548" x2="1234" y2="548" stroke="#eef1f5" stroke-width="1"/>
+  <text x="1010" y="564" font-size="9.5" font-weight="700" fill="#0b6a9c" letter-spacing="0.3">PK</text>
+  <text x="1052" y="564" font-size="12.5" fill="#111827" font-weight="700">papel</text>
+  <text x="1225" y="564" font-size="10.5" text-anchor="end" fill="#6b7280">ator/diretor</text>
+  <line x1="1001" y1="571" x2="1234" y2="571" stroke="#eef1f5" stroke-width="1"/>
+  <text x="1052" y="587" font-size="12.5" fill="#111827">ordem</text>
+  <text x="1225" y="587" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  </g>
+  <g><rect x="1290" y="470" width="175" height="124" rx="7" fill="#ffffff" stroke="#c3cad4" stroke-width="1.5"/>
+  <path d="M1290 502 v-25 a7 7 0 0 1 7 -7 h161 a7 7 0 0 1 7 7 v25 z" fill="#374151"/>
+  <text x="1302" y="491" font-size="14" font-weight="700" fill="#ffffff" letter-spacing="0.6">PESSOA</text>
+  <text x="1300" y="518" font-size="9.5" font-weight="700" fill="#0b6a9c" letter-spacing="0.3">PK</text>
+  <text x="1342" y="518" font-size="12.5" fill="#111827" font-weight="700">id</text>
+  <text x="1455" y="518" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="1291" y1="525" x2="1464" y2="525" stroke="#eef1f5" stroke-width="1"/>
+  <text x="1300" y="541" font-size="9.5" font-weight="700" fill="#0b6a9c" letter-spacing="0.3">UK</text>
+  <text x="1342" y="541" font-size="12.5" fill="#111827">nome</text>
+  <text x="1455" y="541" font-size="10.5" text-anchor="end" fill="#6b7280">TEXT</text>
+  <line x1="1291" y1="548" x2="1464" y2="548" stroke="#eef1f5" stroke-width="1"/>
+  <text x="1342" y="564" font-size="12.5" fill="#111827">tmdb_id</text>
+  <text x="1455" y="564" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="1291" y1="571" x2="1464" y2="571" stroke="#eef1f5" stroke-width="1"/>
+  <text x="1342" y="587" font-size="12.5" fill="#111827">foto</text>
+  <text x="1455" y="587" font-size="10.5" text-anchor="end" fill="#6b7280">TEXT</text>
+  </g>
+  <g><rect x="670" y="620" width="265" height="124" rx="7" fill="#ffffff" stroke="#c3cad4" stroke-width="1.5"/>
+  <path d="M670 652 v-25 a7 7 0 0 1 7 -7 h251 a7 7 0 0 1 7 7 v25 z" fill="#374151"/>
+  <text x="682" y="641" font-size="14" font-weight="700" fill="#ffffff" letter-spacing="0.6">FILME_ESTATISTICA</text>
+  <text x="680" y="668" font-size="9.5" font-weight="700" fill="#0b6a9c" letter-spacing="0.3">PK FK</text>
+  <text x="722" y="668" font-size="12.5" fill="#111827" font-weight="700">filme_id</text>
+  <text x="925" y="668" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="671" y1="675" x2="934" y2="675" stroke="#eef1f5" stroke-width="1"/>
+  <text x="722" y="691" font-size="12.5" fill="#111827">qtd</text>
+  <text x="925" y="691" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="671" y1="698" x2="934" y2="698" stroke="#eef1f5" stroke-width="1"/>
+  <text x="722" y="714" font-size="12.5" fill="#111827">media</text>
+  <text x="925" y="714" font-size="10.5" text-anchor="end" fill="#6b7280">REAL</text>
+  <line x1="671" y1="721" x2="934" y2="721" stroke="#eef1f5" stroke-width="1"/>
+  <text x="722" y="737" font-size="12.5" fill="#111827">n1 . . n5</text>
+  <text x="925" y="737" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  </g>
+  <g><rect x="355" y="620" width="245" height="124" rx="7" fill="#ffffff" stroke="#c3cad4" stroke-width="1.5"/>
+  <path d="M355 652 v-25 a7 7 0 0 1 7 -7 h231 a7 7 0 0 1 7 7 v25 z" fill="#374151"/>
+  <text x="367" y="641" font-size="14" font-weight="700" fill="#ffffff" letter-spacing="0.6">SCRAPER_LOG</text>
+  <text x="365" y="668" font-size="9.5" font-weight="700" fill="#0b6a9c" letter-spacing="0.3">PK FK</text>
+  <text x="407" y="668" font-size="12.5" fill="#111827" font-weight="700">filme_id</text>
+  <text x="590" y="668" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="356" y1="675" x2="599" y2="675" stroke="#eef1f5" stroke-width="1"/>
+  <text x="407" y="691" font-size="12.5" fill="#111827">status</text>
+  <text x="590" y="691" font-size="10.5" text-anchor="end" fill="#6b7280">TEXT</text>
+  <line x1="356" y1="698" x2="599" y2="698" stroke="#eef1f5" stroke-width="1"/>
+  <text x="407" y="714" font-size="12.5" fill="#111827">tmdb_id</text>
+  <text x="590" y="714" font-size="10.5" text-anchor="end" fill="#6b7280">INTEGER</text>
+  <line x1="356" y1="721" x2="599" y2="721" stroke="#eef1f5" stroke-width="1"/>
+  <text x="407" y="737" font-size="12.5" fill="#111827">quando</text>
+  <text x="590" y="737" font-size="10.5" text-anchor="end" fill="#6b7280">TEXT</text>
+  </g>
+  <g><rect x="40" y="780" width="270" height="86" rx="7" fill="#f7f8fa" stroke="#c3cad4"/>
+  <text x="54" y="802" font-size="11" font-weight="700" fill="#111827" letter-spacing="0.6">LEGENDA</text>
+  <text x="54" y="822" font-size="11" fill="#0b6a9c" font-weight="700">PK</text><text x="82" y="822" font-size="11" fill="#6b7280">chave primária · <tspan fill="#0b6a9c" font-weight="700">FK</tspan> estrangeira · <tspan fill="#0b6a9c" font-weight="700">UK</tspan> única</text>
+  <line x1="62" y1="835" x2="62" y2="849" stroke="#5b6572" stroke-width="1.6"/>
+  <text x="76" y="846" font-size="11" fill="#6b7280">um</text>
+  <path d="M161 842 L150 835 M161 842 L150 842 M161 842 L150 849" stroke="#5b6572" stroke-width="1.6" fill="none"/>
+  <text x="166" y="846" font-size="11" fill="#6b7280">muitos</text>
+  </g>
+  </svg>

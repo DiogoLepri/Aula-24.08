@@ -73,9 +73,9 @@ SQLite. O DDL fica em `src/data/esquema.sql` e é aplicado por
 `src/data/carga.py`, que apaga e recria as tabelas a cada execução.
 `src/data/banco.py` centraliza o caminho do arquivo e a abertura da conexão.
 
-O diagrama e a explicação tabela por tabela estão em
-**[docs/esquema.md](esquema.md)**. Em resumo, o centro é `filme`, e em volta
-dele:
+O **DER** está em **[docs/der.svg](der.svg)** (e em Mermaid, dentro de
+[docs/esquema.md](esquema.md), que também traz a explicação tabela por
+tabela). Em resumo, o centro é `filme`, e em volta dele:
 
 - **usuário** liga-se a filme por **avaliacao** (nota 1–5, PK usuário+filme)
 - **categoria** liga-se a filme por **filme_categoria** (N:N, 19 gêneros)
@@ -142,13 +142,15 @@ Acrescentar uma prateleira é escrever o módulo e pô-lo na tupla — a home e 
 
 ## Design
 
-Visual de serviço de streaming — a referência é a Netflix, e a escolha não é
-só estética: o catálogo é uma lista de filmes com pôster, que é exatamente o
+Visual de serviço de streaming — a referência é o Prime Video, e a escolha não
+é só estética: o catálogo é uma lista de filmes com pôster, que é exatamente o
 que esse desenho resolve bem.
 
-- **Cor:** fundo `#141414`, superfícies `#1f1f1f`, texto branco sobre cinza
-  `#b3b3b3`, acento vermelho `#e50914`. Verde `#46d369` só para o percentual
-  de aprovação.
+- **Cor:** azul-marinho escuro `#0f171e` de fundo, superfícies `#1a242f` e
+  `#232f3e`, texto branco sobre `#aab7c4`, acento ciano `#00a8e1`. Verde
+  `#4fd26c` só para o percentual de aprovação. O acento nunca leva texto
+  branco em cima: botão azul tem letra escura, que é o contraste que o ciano
+  pede.
 - **Tipografia:** Inter, do 400 ao 900. Títulos em 900 com `letter-spacing`
   negativo; números com `tabular-nums` para as colunas não dançarem.
 - **Abertura:** o filme mais avaliado da base ocupa a tela inteira, com o
@@ -160,8 +162,9 @@ que esse desenho resolve bem.
   distribuição, a média e os gêneros.
 - **Prateleiras:** fileira que rola de lado, dez por vez, com `scroll-snap`.
   Nas duas que são ranking, o numerão vai atrás do pôster, vazado, com o `1`
-  em vermelho — `scroll-padding` alinha o primeiro cartão com o título da
-  seção.
+  em ciano — `scroll-padding` alinha o primeiro cartão com o título da seção.
+- **Marca:** a palavra em branco com `100k` em ciano e o traço curvo por
+  baixo, em SVG inline.
 - **O número verde:** a média sozinha achata a diferença entre um filme que
   todo mundo achou bom e um que metade amou. O cartão mostra a **fatia de
   notas 4 e 5** (`consultas.aprovacao`), que é o que a base tem de mais
@@ -169,7 +172,8 @@ que esse desenho resolve bem.
 
 A distribuição de notas (1–5) segue como barra empilhada colorida em todos os
 cartões e no detalhe — é o dado do trabalho, e o visual escuro só mudou as
-cores dela. Imagens vêm da CDN do TMDB (`image.tmdb.org`); filmes sem pôster e
+cores dela (a escala 1→5 continua indo do vermelho ao verde, que é o único
+lugar onde a cor carrega significado). Imagens vêm da CDN do TMDB (`image.tmdb.org`); filmes sem pôster e
 pessoas sem foto recebem um placeholder tipográfico. Estados de hover e foco
 visíveis, `prefers-reduced-motion` respeitado, layout responsivo (no celular
 as fileiras viram grade).

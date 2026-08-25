@@ -9,6 +9,10 @@ O centro é **filme**. Em volta dele, as quatro coisas do catálogo: quem
 avaliou (**usuário**), o que ele é (**categorias**) e quem fez (**atores** e
 diretores).
 
+![DER do catálogo MovieLens 100k](der.svg)
+
+O mesmo diagrama em Mermaid, para quem quiser editar:
+
 ```mermaid
 erDiagram
     USUARIO   ||--o{ AVALIACAO       : "dá nota"
